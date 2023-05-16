@@ -8,14 +8,16 @@ $(document).ready(function() {
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
-  var eventInput = document.getElementById("hour-9");
-  var saveButton = document.querySelectorAll(".btn.saveBtn.col-2.col-md-1");
-  
-  saveButton.addEventListener("click", localStorageInfo);
+  $(".btn.saveBtn.col-2.col-md-1").on("click", function() {
+    // Get the user input from the corresponding textarea
+    var eventInput = $(this).siblings(".description").val();
 
-  function localStorageInfo() {
-  localStorage.setItem("event", eventInput.value);
-  }
+    // Get the id of the containing time-block
+    var timeBlockId = $(this).parent().attr("id");
+
+    // Save the user input in local storage using the timeBlockId as the key
+    localStorage.setItem(timeBlockId, eventInput);
+  });
   //
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
@@ -39,7 +41,16 @@ $(document).ready(function() {
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
-  getItem("event");
+  $(".description").each(function() {
+    var timeBlockId = $(this).parent().attr("id");
+
+    // Retrieve the user input from local storage using the timeBlockId as the key
+    var userInput = localStorage.getItem(timeBlockId);
+
+    // Set the value of the textarea element
+    $(this).val(userInput);
+  });
   // TODO: Add code to display the current date in the header of the page.
-  $("#currentDay").text(today.format('MMM D, YYYY'));
+  var currentDate = dayjs().format('MMM D, YYYY');
+  $("#currentDay").text(currentDate);
 });
