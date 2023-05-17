@@ -15,16 +15,16 @@ $(document).ready(function() {
   var currentHour = dayjs().format('H');
 
   // Loop through each time block
-  $(".container-lg > div[id^='hour-']").each(function() {
+  $(".container-lg > div > div[id^='hour-']").each(function() {
     var blockHour = parseInt($(this).attr("id").split("-")[1]);
     var currentHour = dayjs().format('H');
 
     if (blockHour < currentHour) {
-      $(this).attr({"class": "past"});
+      $(this).addClass("past");
     } else if (blockHour == currentHour) {
-      $(this).attr({"class": "present"});
+      $(this).addClass("present");
     } else {
-      $(this).attr({"class": "future"});
+      $(this).addClass("future");
     }
   });
   
